@@ -9,4 +9,7 @@ public interface ProductService {
 
 	public PageInfo selectByExample(ProductCriteria productCriteria);
 
+	public void onSale(Long[] ids);
+	public void sellOut(Long[] ids);
+
 }

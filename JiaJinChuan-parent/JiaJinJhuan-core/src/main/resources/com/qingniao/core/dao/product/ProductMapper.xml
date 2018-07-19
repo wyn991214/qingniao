@@ -453,4 +453,5 @@
       check_user_id = #{checkUserId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
 </mapper>

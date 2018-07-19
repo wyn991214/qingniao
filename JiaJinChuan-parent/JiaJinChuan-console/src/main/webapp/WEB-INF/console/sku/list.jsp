@@ -51,7 +51,7 @@
 		<c:forEach items="${skus }" var="sku" >
 			<tr bgcolor="#ffffff" onmouseover="this.bgColor='#eeeeee'" onmouseout="this.bgColor='#ffffff'">
 				<td><input type="checkbox" name="ids" value="${sku.id }"/></td>
-				<td align="center">${sku.color.name }</td>
+				<td align="center"> ${sku.color.name }</td>
 				<td align="center">${sku.size }</td>
 				<td align="center"><input type="text" id="m${sku.id }" value="${sku.marketPrice}" disabled="disabled" size="10"/></td>
 				<td align="center"><input type="text" id="p${sku.id }" value="${sku.price}" disabled="disabled" size="10"/></td>

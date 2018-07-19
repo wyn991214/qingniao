@@ -284,4 +284,14 @@ public class Sku implements Serializable {
         sb.append("]");
         return sb.toString();
     }
+   public  Color color;
+
+public Color getColor() {
+	return color;
+}
+
+public void setColor(Color color) {
+	this.color = color;
+}
+   
 }
