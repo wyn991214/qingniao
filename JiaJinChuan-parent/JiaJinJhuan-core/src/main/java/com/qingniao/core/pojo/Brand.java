@@ -10,22 +10,24 @@ import com.qingniao.core.common.Server_URL;
  *
  */
 public class Brand {
-	private long id;
+	private Long id;
 	private String name;
 	private String description;  //品牌描述
 	private String logo;  //品牌logo
 	private String url;  //品牌的官方网站
 	private Integer status; // 1在售 2停售 3删除
-
-
-
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
+
+
+
+
+
 
 	public String getName() {
 		return name;

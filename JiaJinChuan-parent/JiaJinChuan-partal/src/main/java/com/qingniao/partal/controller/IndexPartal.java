@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class IndexPartal {
 	
 	
-	@RequestMapping("index.html")
+
 	public String indext(){
 		
 	return "product/product";

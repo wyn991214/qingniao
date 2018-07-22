@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.qingniao.core.dao.product.SkuMapper;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring/applicationContext-*.xml" })
 public class solrTest {
@@ -55,8 +57,17 @@ public class solrTest {
 		@Test
 		public void cs3() throws Exception {
 			//删除数据
-			solrServer.deleteById("2");
+			solrServer.deleteById("change.me");
 			solrServer.commit();
+		}
+		
+		
+		@Autowired
+		SkuMapper skuMapper;
+		@Test
+		public void cs4(){
+			float id = skuMapper.selectPriceByProductId(1l);
+			System.out.println(id);
 		}
 
 }

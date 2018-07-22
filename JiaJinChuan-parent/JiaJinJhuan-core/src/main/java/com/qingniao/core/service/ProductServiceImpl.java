@@ -63,7 +63,37 @@ public class ProductServiceImpl implements ProductService {
 			product.setId(id);
 			product.setIsShow(true);// 设置商品为上架
 			productMapper.updateByPrimaryKeySelective(product);
-			
+			Product p = productMapper.selectByPrimaryKey(id);
+
+			// 保存商品数据到solr服务器
+			SolrInputDocument solrInputDocument = new SolrInputDocument();
+			// id
+			solrInputDocument.setField("id", id);
+			// name
+			solrInputDocument.setField("name_ik", p.getName());
+			// url
+			ImgCriteria imgCriteria = new ImgCriteria();
+			imgCriteria.createCriteria().andProductIdEqualTo(id).andIsDefEqualTo(false);
+			List<Img> imgs = imgMapper.selectByExample(imgCriteria);
+			solrInputDocument.setField("url", imgs.get(0).getUrl());
+			// price
+			float price = skuMapper.selectPriceByProductId(id);
+			solrInputDocument.setField("price", price);
+			// 设置brandId
+			solrInputDocument.setField("brandId", p.getBrandId());
+
+			try {
+				solrServer.add(solrInputDocument);
+				solrServer.commit();
+
+			} catch (SolrServerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 	}
 
@@ -75,38 +105,7 @@ public class ProductServiceImpl implements ProductService {
 			product.setId(id);
 			product.setIsShow(false);// 设置商品为上架
 			productMapper.updateByPrimaryKeySelective(product);
-			Product p = productMapper.selectByPrimaryKey(id);
-			
-			
-			//保存商品数据到solr服务器
-			SolrInputDocument solrInputDocument = new  SolrInputDocument();
-			//id
-			solrInputDocument.setField("id", id);
-			//name
-			solrInputDocument.setField("name_ik", p.getName());
-			//url
-			ImgCriteria imgCriteria = new ImgCriteria();
-			imgCriteria.createCriteria().andProductIdEqualTo(id).andIsDefEqualTo(false);
-			List<Img> imgs = imgMapper.selectByExample(imgCriteria);
-			solrInputDocument.setField("url", imgs.get(0).getUrl());
-			//price
-			float price = skuMapper.selectPriceByProductId(id);
-			solrInputDocument.setField("price", price);
-			//设置brandId
-			solrInputDocument.setField("brandId", p.getBrandId());
-			
-			try {
-				solrServer.add(solrInputDocument);
-				solrServer.commit();
-				
-			} catch (SolrServerException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+
 		}
 	}
 

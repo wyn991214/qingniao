@@ -11,14 +11,27 @@ import com.qingniao.core.dao.BrandMapper;
 import com.qingniao.core.pojo.Brand;
 import com.qingniao.core.pojo.BrandExample;
 
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+
 @Service("brandService")
 public class BrandServiceImpl implements BrandService {
 	@Autowired
 	private BrandMapper brandMapper;
+	@Autowired
+	JedisPool jedisPool;
 
 	@Override
 	public void insertBrand(Brand brand) { 
 		brandMapper.insertBrand(brand);
+		//把数据缓存到redis中；
+		Jedis jedis = jedisPool.getResource();
+		//保存id
+		jedis.hset("brand"+brand.getId(),"id",brand.getId().toString());
+		//保存name
+		jedis.hset("brand"+brand.getId(),"name",brand.getName());
+		jedis.close();
+	
 
 	}
 
@@ -33,10 +46,19 @@ public class BrandServiceImpl implements BrandService {
 	}
 	
 	public void batchDelect(Long[] ids){
+		Jedis jedis = jedisPool.getResource();
+		for (Long id : ids) {
+			jedis.del("brand"+id);
+		}
+		jedis.close();
 		brandMapper.batchDelect(ids);
 	}
 	public void updateBrand(Brand brand){
 		brandMapper.updateBrand(brand);
+		Jedis jedis = jedisPool.getResource();
+		
+		jedis.hset("brand"+brand.getId(), "name", brand.getName());
+		jedis.close();
 	}
 	public Brand selectBrand (Integer id){
 		return brandMapper.selectBrand(id);

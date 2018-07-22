@@ -32,17 +32,17 @@ public class Product implements Serializable {
     /**
      * 是否新品:0:旧品,1:新品
      */
-    private Boolean isNew=false;
+    private Boolean isNew;
 
     /**
      * 是否热销:0,否 1:是
      */
-    private Boolean isHot=false;
+    private Boolean isHot;
 
     /**
      * 推荐 1推荐 0 不推荐
      */
-    private Boolean isCommend=false;
+    private Boolean isCommend;
 
     /**
      * 上下架:0否 1是
@@ -304,6 +304,16 @@ public class Product implements Serializable {
 
 	public void setImg(Img img) {
 		this.img = img;
+	}
+	//最低价
+	public float price;
+
+	public float getPrice() {
+		return price;
+	}
+
+	public void setPrice(float price) {
+		this.price = price;
 	}
 	
 

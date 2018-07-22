@@ -7,7 +7,7 @@
 	</sql>
 
 	<!-- 添加 -->
-	<insert id="insertBrand" parameterType="brand">
+	<insert id="insertBrand" parameterType="brand"  useGeneratedKeys="true" keyProperty="id" >
 		insert into
 		qnsport_brand(id,name,description,logo,url,status)
 		values
